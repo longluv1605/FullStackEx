@@ -1,0 +1,20 @@
+{
+    "name": "fullstackexercises",
+    "version": "1.0.0",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "nodemon src/server.js"
+    },
+    "author": "Long",
+    "license": "ISC",
+    "description": "Exercises",
+    "dependencies": {
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}

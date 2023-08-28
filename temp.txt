@@ -1,0 +1,35 @@
+app.post("/api/persons", (request, response) => {
+    try {
+        const id = Math.floor(Math.random() * 1000);
+        let name = 'Arto Hellas'/*  = `Person ${id}` */;
+        const number = `${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 10000000)}`;
+    
+        const existed = persons.find(person => person.name === name);
+    
+        if (existed) {
+            throw new Error('name must be unique');
+        }
+        if (!name && !number) {
+            throw new Error('missing name and number');
+        }
+        if (!name) {
+            throw new Error('missing name');
+        }
+        if (!number) {
+            throw new Error('missing number');
+        }
+    
+        const person = {
+            id: id,
+            name: name,
+            number: number,
+        }
+    
+        persons = persons.concat(person);
+        console.log(persons);
+        response.json(person);
+    } catch (error) {
+        console.log(error.message);
+        response.status(204).end('error');
+    }
+});
