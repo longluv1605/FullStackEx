@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
 const date = new Date();
+const cors = require("cors");
 
 // for ex 3.7
 const morgan = require("morgan");
-app.use(morgan('tiny'));
-
+app.use(morgan("tiny"));
+app.use(cors());
 
 let persons = [
     {
@@ -30,6 +31,10 @@ let persons = [
     },
 ];
 
+app.get("/", (request, response) => {
+    response.send("<h1>FullStackEx</h1>");
+});
+
 // 3.1
 app.get("/api/persons", (request, response) => {
     response.json(persons);
@@ -44,12 +49,11 @@ app.get("/info", (request, response) => {
 // 3.3
 app.get("/api/persons/:id", (request, response) => {
     const id = Number(request.params.id);
-    const person = persons.find(person => person.id === id);
+    const person = persons.find((person) => person.id === id);
 
     if (!person) {
         response.status(404).end();
-    }
-    else {
+    } else {
         response.json(person);
     }
 });
@@ -57,7 +61,7 @@ app.get("/api/persons/:id", (request, response) => {
 // 3.4
 app.delete("/delete/:id", (request, response) => {
     const id = Number(request.params.id);
-    persons = persons.filter(person => person.id !== id);
+    persons = persons.filter((person) => person.id !== id);
 
     console.log(persons);
 
@@ -69,29 +73,31 @@ app.post("/api/persons", (request, response) => {
     try {
         const id = Math.floor(Math.random() * 1000);
         let name = `Person ${id}`;
-        const number = `${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 10000000)}`;
-    
-        const existed = persons.find(person => person.name === name);
-    
+        const number = `${Math.floor(Math.random() * 100)}-${Math.floor(
+            Math.random() * 100
+        )}-${Math.floor(Math.random() * 10000000)}`;
+
+        const existed = persons.find((person) => person.name === name);
+
         if (existed) {
-            throw new Error('name must be unique');
+            throw new Error("name must be unique");
         }
         if (!name && !number) {
-            throw new Error('missing name and number');
+            throw new Error("missing name and number");
         }
         if (!name) {
-            throw new Error('missing name');
+            throw new Error("missing name");
         }
         if (!number) {
-            throw new Error('missing number');
+            throw new Error("missing number");
         }
-    
+
         const person = {
             id: id,
             name: name,
             number: number,
-        }
-    
+        };
+
         persons = persons.concat(person);
         console.log(persons);
         response.json(person);
@@ -102,7 +108,6 @@ app.post("/api/persons", (request, response) => {
 });
 
 // 3.7
-
 
 const PORT = 3001;
 app.listen(PORT, () => {
